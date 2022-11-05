@@ -3,3 +3,23 @@
 
 GET http://localhost:3000/flight HTTP/1.1
 
+
+######################
+POST http://localhost:3000/flight HTTP/1.1
+Content-Type: application/json
+
+
+{
+  "flight": {
+    "title": "flight to canada",
+    "price": 1000,
+    "number": "123",
+    "date": "2013-12-25",
+    "origin": "SFO",
+    "destination": "LAX"
+  }
+}
+
+######################
+PUT http://localhost:3000/flight/1 HTTP/1.1
+
