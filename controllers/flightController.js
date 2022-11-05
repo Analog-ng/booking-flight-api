@@ -1,14 +1,15 @@
-exports.example = (req, res) => {
-    console.log("example")
-    res.send("Flight example")
-}
+const Flights = require("../models/Flight")
 
 
 // get all flights
 exports.getAllFlights = async (req, res) => {
     try {
-        const flights = await models.Flight.find();
-        res.json(flights);
+        const flights = Flights;
+        res.status(200).json({
+					message: 'All flights',
+					flights: flights
+				});
+
     } catch (err) {
         res.status(500).json({ message: err.message });
     }
@@ -88,6 +89,13 @@ exports.deleteFlight = async (req, res) => {
     }
 }
 
+
+// {
+// title: "flight to canada",
+// time: 1pm,
+// price: 26000,
+// date: "26-06-2022"
+// }
 
 
 

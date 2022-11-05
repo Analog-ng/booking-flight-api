@@ -7,7 +7,7 @@ const routes = require("./routes/flightRoute");
 const app = express();
 
 app.use(json());
-app.use("/flights", routes);
+app.use("/flight", routes);
 
 const port = process.env.PORT || 3000;
 
