@@ -4,8 +4,16 @@ const router = express.Router();
 const controller = require('../controllers/flightController');
 
 
-router.get('/', controller.getAllFlights);
-router.post('/', controller.createFlight);
+router
+    .get('/', controller.getAllFlights)
+    .get('/:id', controller.getOneFlight)
+    .post('/', controller.createFlight)
+    .put('/:id', controller.updateFlight)
+    .delete('/:id', controller.deleteFlight);
+
+
+    
+    
 
 module.exports = router;
 

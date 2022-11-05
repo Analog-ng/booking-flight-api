@@ -1,5 +1,5 @@
 const { Flights } = require('../models/Flight');
-const uuid = require('uuid').v4()
+const { v4: uuid } = require('uuid');
 
 // get all flights
 exports.getAllFlights = async (req, res) => {
@@ -31,9 +31,18 @@ exports.getOneFlight = async (req, res) => {
 // create one flight
 exports.createFlight = async (req, res) => {
 	try {
-        const flight = await req.body;
-        flight.id = uuid;
+        const { title, price, number, date, origin, destination } = await req.body;
         
+        const flight = {
+            id: uuid(),
+            title,
+            price,
+            number,
+            date,
+            origin,
+            destination
+        }
+
        Flights.push(flight);
 		res.status(201).json({
 			message: 'Flight created',
@@ -46,46 +55,41 @@ exports.createFlight = async (req, res) => {
 
 // update one flight
 exports.updateFlight = async (req, res) => {
-	try {
-		const flight = await models.Flight.findById(req.params.id);
-		if (flight == null) {
-			return res.status(404).json({ message: 'Cannot find flight' });
-		}
-		if (req.body.flightNumber != null) {
-			flight.flightNumber = req.body.flightNumber;
-		}
-		if (req.body.departure != null) {
-			flight.departure = req.body.departure;
-		}
-		if (req.body.arrival != null) {
-			flight.arrival = req.body.arrival;
-		}
-		if (req.body.departureTime != null) {
-			flight.departureTime = req.body.departureTime;
-		}
-		if (req.body.arrivalTime != null) {
-			flight.arrivalTime = req.body.arrivalTime;
-		}
-		if (req.body.price != null) {
-			flight.price = req.body.price;
-		}
-		const updatedFlight = await flight.save();
-		res.json(updatedFlight);
-	} catch (err) {
+    try {
+        let id = req.params.id;
+        let flight = Flights.find(flight => flight.id == id);
+        const { title, price, number, date, origin, destination } = await req.body;
+        
+        flight.title = title;
+        flight.price = price;
+        flight.number = number;
+        flight.date = date;
+        flight.origin = origin;
+        flight.destination = destination;
+
+        res.status(200).json({
+            message: 'Flight updated',
+            flight
+        });
+    } catch (err) {
 		res.status(500).json({ message: err.message });
 	}
 };
 
 // delete one flight
 exports.deleteFlight = async (req, res) => {
-	try {
-		const flight = await models.Flight.findById(req.params.id);
-		if (flight == null) {
-			return res.status(404).json({ message: 'Cannot find flight' });
-		}
-		await flight.remove();
-		res.json({ message: 'Deleted flight' });
-	} catch (err) {
+    try {
+        let id = req.params.id;
+
+        flight = Flights.find((flight) => flight.id == id);
+        Flights.splice(Flights.indexOf(flight), 1);
+        res.status(200).json({
+            message: 'Deleted flight',
+            user,
+        });
+
+    }
+    catch (err) {
 		res.status(500).json({ message: err.message });
 	}
 };
